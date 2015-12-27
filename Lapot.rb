@@ -75,6 +75,13 @@ class App
   def self.date
     it = Gtk::Calendar.new
     register it
+
+    if block_given?
+      it.signal_connect "day-selected" do
+        yield Time.new it.year, it.month + 1, it.day
+      end
+    end
+
     it
   end
 
@@ -139,6 +146,11 @@ App.create do
       form [:id,   :plain],
            [:date, :date],
            [:sum,  :plain]
+
+      l = label "-"
+      c = date do |date|
+        l.text = "#{date}"
+      end
 
       flow do
         button "useless"
