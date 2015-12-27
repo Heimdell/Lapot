@@ -23,21 +23,17 @@ class App
   end
 
   def self.stack
-    sequence :vertical do
-      yield
-    end
+    sequence :vertical { yield }
   end
 
   def self.flow
-    sequence :horizontal do
-      yield
-    end
+    sequence :horizontal { yield }
   end
 
   def self.start_collecting align
     vbox    = Gtk::Box.new align, 0
     e_space = Gtk::Alignment.new 0, 0, 0, 0
-    vbox.pack_start e_space, :expand => true
+    vbox.pack_start e_space, expand: true
     @@framestack += [vbox]
   end
 
@@ -60,11 +56,7 @@ class App
     it = Gtk::Button.new label: name
     register it
 
-    if block_given?
-      it.signal_connect "clicked" do
-        yield
-      end
-    end
+    it.signal_connect "clicked" { yield } if block_given?
     it
   end
 
