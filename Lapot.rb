@@ -23,11 +23,11 @@ class App
   end
 
   def self.stack
-    sequence :vertical { yield }
+    sequence(:vertical) { yield }
   end
 
   def self.flow
-    sequence :horizontal { yield }
+    sequence(:horizontal) { yield }
   end
 
   def self.start_collecting align
@@ -56,7 +56,7 @@ class App
     it = Gtk::Button.new label: name
     register it
 
-    it.signal_connect "clicked" { yield } if block_given?
+    it.signal_connect("clicked") { yield } if block_given?
     it
   end
 
